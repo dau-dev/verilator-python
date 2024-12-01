@@ -16,7 +16,8 @@ install:  ## install library
 # LINTS #
 #########
 lint-py:  ## run python linter with flake8 and black
-	python -m ruff verilator setup.py
+	python -m ruff check verilator setup.py
+	python -m ruff format --check verilator setup.py
 
 lint: lint-py  ## run all lints
 
@@ -24,8 +25,8 @@ lint: lint-py  ## run all lints
 lints: lint
 
 fix-py:  ## fix python formatting with black
-	python -m isort verilator
-	python -m ruff format verilator/ setup.py
+	python -m ruff check --fix verilator setup.py
+	python -m ruff format verilator setup.py
 
 fix: fix-py  ## run all autofixers
 
