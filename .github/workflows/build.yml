@@ -1,0 +1,74 @@
+name: Build Status
+
+on:
+  push:
+    branches: [main]
+    tags: [v*]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+          os:
+            - ubuntu-24.04 # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
+            - macos-14 # https://github.com/actions/runner-images/blob/main/images/macos/macos-14-arm64-Readme.md
+            # - windows-2019 # https://github.com/actions/runner-images/blob/main/images/windows/Windows2019-Readme.md
+          python-version:
+            - "3.11"
+          cibuildwheel:
+            - "cp311"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: 'pyproject.toml'
+
+      - name: Install dependencies
+        run: pip install cibuildwheel
+
+      - name: Python Wheel Steps (Linux)
+        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "${{ matrix.cibuildwheel }}-manylinux*"
+          CIBW_ENVIRONMENT_LINUX: CCACHE_DIR="/host/home/runner/work/verilator-python/verilator-python/.ccache"
+          CIBW_BUILD_VERBOSITY: 3
+        if: ${{ runner.os == 'Linux' }}
+
+      - name: Python Build Steps (Macos)
+        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "${{ matrix.cibuildwheel }}-macos*"
+          CIBW_ENVIRONMENT_MACOS: CCACHE_DIR="/Users/runner/work/verilator-python/verilator-python/.ccache" MACOSX_DEPLOYMENT_TARGET=11.0
+          CIBW_BUILD_VERBOSITY: 3
+        if: ${{ matrix.os == 'macos-14' }}
+
+      - name: Python Build Steps (Windows)
+        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "${{ matrix.cibuildwheel }}-win_amd64"
+        if: ${{ matrix.os == 'windows-2019' }}
+
+      - name: Upload Wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python-version }}
+          path: dist/*.whl

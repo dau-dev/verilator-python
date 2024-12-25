@@ -1,0 +1,115 @@
+[build-system]
+requires = ["hatchling"]
+build-backend="hatchling.build"
+
+[project]
+name = "verilator"
+authors = [{name = "the verilator-python authors", email = "dev@dau.dev"}]
+description = "Python wrapping/binding for verilator"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+version = "0.1.0"
+requires-python = ">=3.9"
+keywords = []
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+cli = [
+    "rich",
+    "typer",
+]
+develop = [
+    "build",
+    "cibuildwheel",
+    "hatchling",
+    "twine",
+    "wheel",
+]
+
+[project.scripts]
+verilator-cli = "verilator.cli:main"
+
+[project.urls]
+Repository = "https://github.com/dau-dev/verilator-python"
+Homepage = "https://github.com/dau-dev/verilator-python"
+
+[tool.cibuildwheel]
+build = "cp39-* cp310-* cp311-* cp312-*"
+test-command = "echo 'TODO'"
+test-requires = []
+
+[tool.cibuildwheel.linux]
+before-all ="""
+set -e
+yum install bison flex -y
+git submodule update --init --recursive
+cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
+cmake --build build
+cmake --install build
+rm -rf src build .gitmodules
+"""
+repair-wheel-command = ""
+skip = "*i686 musllinux*"
+
+[tool.cibuildwheel.macos]
+before-all ="""
+set -e
+HOMEBREW_NO_AUTO_UPDATE=1 brew install bison flex make ninja
+brew unlink bison flex && brew link --force bison && brew link --force flex 
+git submodule update --init --recursive
+cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
+cmake --build build
+cmake --install build
+rm -rf src build
+"""
+repair-wheel-command = ""
+environment = {MACOSX_DEPLOYMENT_TARGET=11.0}
+archs = "arm64"
+
+[tool.cibuildwheel.windows]
+before-all ="""
+git submodule update --init --recursive
+cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
+cmake --build build
+cmake --install build
+rm -rf src build
+"""
+archs = "AMD64"
+skip = "*win32 *arm_64"	
+
+[tool.hatch.build]
+artifacts = [
+    "verilator/bin/",
+    "verilator/examples/",
+    "verilator/include/",
+    "verilator/tests/",
+    "verilator/verilator-config-version.cmake",
+    "verilator/verilator-config.cmake",
+]
+[tool.hatch.build.sources]
+src = "/"
+
+[tool.hatch.build.targets.wheel.hooks.custom]
+
+[tool.hatch.build.targets.wheel]
+packages = ["verilator"]
+exclude = [
+    "/.github",
+    "/scripts",
+    "/src",
+    "/.gitmodules",
+    "/.gitignore",
+    "/pyproject.toml",
+]
