@@ -8,7 +8,7 @@ authors = [{name = "the verilator-python authors", email = "dev@dau.dev"}]
 description = "Python wrapping/binding for verilator"
 readme = "README.md"
 license = { text = "Apache-2.0" }
-version = "0.1.0"
+version = "5.30.0"
 requires-python = ">=3.9"
 keywords = []
 
@@ -58,7 +58,7 @@ git submodule update --init --recursive
 cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
 cmake --build build
 cmake --install build
-rm -rf src build .gitmodules
+rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
 """
 repair-wheel-command = ""
 skip = "*i686 musllinux*"
@@ -72,10 +72,10 @@ git submodule update --init --recursive
 cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
 cmake --build build
 cmake --install build
-rm -rf src build
+rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
 """
 repair-wheel-command = ""
-environment = {MACOSX_DEPLOYMENT_TARGET=11.0}
+environment = {MACOSX_DEPLOYMENT_TARGET="11.0"}
 archs = "arm64"
 
 [tool.cibuildwheel.windows]
@@ -84,7 +84,7 @@ git submodule update --init --recursive
 cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
 cmake --build build
 cmake --install build
-rm -rf src build
+rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
 """
 archs = "AMD64"
 skip = "*win32 *arm_64"	
@@ -92,11 +92,8 @@ skip = "*win32 *arm_64"
 [tool.hatch.build]
 artifacts = [
     "verilator/bin/",
-    "verilator/examples/",
     "verilator/include/",
     "verilator/tests/",
-    "verilator/verilator-config-version.cmake",
-    "verilator/verilator-config.cmake",
 ]
 [tool.hatch.build.sources]
 src = "/"
