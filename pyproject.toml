@@ -58,6 +58,7 @@ git submodule update --init --recursive
 cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
 cmake --build build
 cmake --install build
+cp build/src/verilator verilator/bin/verilator_bin
 rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
 """
 repair-wheel-command = ""
@@ -72,6 +73,7 @@ git submodule update --init --recursive
 cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
 cmake --build build
 cmake --install build
+cp build/src/verilator verilator/bin/verilator_bin
 rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
 """
 repair-wheel-command = ""
@@ -84,6 +86,7 @@ git submodule update --init --recursive
 cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
 cmake --build build
 cmake --install build
+cp build/src/verilator verilator/bin/verilator_bin
 rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
 """
 archs = "AMD64"
