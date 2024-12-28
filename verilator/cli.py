@@ -65,7 +65,6 @@ def build(
     if build:
         args.extend(["--build", "-j", "0"])
     args.extend(["--Mdir", output])
-    print(args)
     verilator(args)
 
 
