@@ -59,6 +59,10 @@ cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
 cmake --build build
 cmake --install build
 cp build/src/verilator verilator/bin/verilator_bin
+echo "AR = ar" >> verilator/include/verilated.mk
+echo "CXX = c++" >> verilator/include/verilated.mk
+echo "LINK = c++" >> verilator/include/verilated.mk
+echo "PYTHON3 = python" >> verilator/include/verilated.mk
 rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
 """
 repair-wheel-command = ""
