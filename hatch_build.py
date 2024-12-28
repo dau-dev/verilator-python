@@ -14,8 +14,8 @@ class CustomHook(BuildHookInterface):
                 build_data['tag'] = "py3-none-macosx_11_0_x86_64"
         elif "linux" in platform:
             if "arm" in arch or "aarch" in arch:
-                build_data['tag'] = "py3-none-linux_aarch64"
+                build_data['tag'] = "py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64"
             else:
-                build_data['tag'] = 'py3-none-linux_x86_64'
+                build_data['tag'] = 'py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64'
         else:
             build_data['tag'] = "py3-none-win_amd64"
