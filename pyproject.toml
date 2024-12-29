@@ -14,8 +14,7 @@ keywords = []
 
 classifiers = [
     "Development Status :: 3 - Alpha",
-    "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -34,6 +33,8 @@ develop = [
     "build",
     "cibuildwheel",
     "hatchling",
+    "pytest",
+    "pytest-cov",
     "twine",
     "wheel",
 ]
@@ -44,6 +45,29 @@ verilator-cli = "verilator.cli:main"
 [project.urls]
 Repository = "https://github.com/dau-dev/verilator-python"
 Homepage = "https://github.com/dau-dev/verilator-python"
+
+[tool.bumpversion]
+current_version = "5.30.3"
+commit = true
+tag = true
+
+[[tool.bumpversion.files]]
+filename = "verilator/__init__.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[tool.check-manifest]
+ignore = [
+    ".copier-answers.yml",
+    "Makefile",
+    "setup.py",
+    "docs/**/*",
+]
 
 [tool.cibuildwheel]
 build = "cp39-* cp310-* cp311-* cp312-*"
@@ -102,6 +126,20 @@ rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_r
 archs = "AMD64"
 skip = "*win32 *arm_64"	
 
+[tool.coverage.run]
+branch = true
+omit = [
+    "verilator/tests/integration/",
+]
+[tool.coverage.report]
+exclude_also = [
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "@(abc\\.)?abstractmethod",
+]
+ignore_errors = true
+fail_under = 50
+
 [tool.hatch.build]
 artifacts = [
     "verilator/bin/",
@@ -123,3 +161,23 @@ exclude = [
     "/.gitignore",
     "/pyproject.toml",
 ]
+
+[tool.pytest.ini_options]
+addopts = ["-vvv", "--junitxml=junit.xml"]
+asyncio_mode = "strict"
+testpaths = "python_template/tests"
+
+[tool.ruff]
+line-length = 150
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+default-section = "third-party"
+known-first-party = ["verilator"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
