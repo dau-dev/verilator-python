@@ -35,6 +35,13 @@ jobs:
         with:
           submodules: 'true'
 
+      - name: Setup ccache cache (Linux)
+        uses: actions/cache@v4
+        with:
+          path: "/home/runner/work/verilator-python/verilator-python/.ccache"
+          key: ccache-${{ runner.os }}-
+          restore-keys: ccache-${{ runner.os }}-
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
@@ -72,3 +79,9 @@ jobs:
         with:
           name: dist-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python-version }}
           path: dist/*.whl
+
+      - name: Test Wheel
+        run: |
+          python -m pip install dist/*.whl
+          python -m pip install pytest rich typer
+          python -m pytest -vvv verilator/tests
