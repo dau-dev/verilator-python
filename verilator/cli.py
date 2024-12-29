@@ -1,10 +1,9 @@
 from functools import lru_cache
 from os import environ
-from sys import argv
 from pathlib import Path
 from shutil import which
 from subprocess import Popen
-from sys import stderr, stdout, exit
+from sys import argv, exit, stderr, stdout
 from time import sleep
 from typing import List
 

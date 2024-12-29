@@ -1,8 +1,8 @@
 # Changes here will be overwritten by Copier
-_commit: 469c3cc
+_commit: ea9f24b
 _src_path: https://github.com/python-project-templates/base.git
 add_extension: python
-email: t.paine154@gmail.com
+email: dev@dau.dev
 github: dau-dev
 project_description: Python wrapping/binding for verilator
 project_name: verilator
