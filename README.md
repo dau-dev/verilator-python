@@ -22,4 +22,4 @@ verilator-cli build sv/*.sv --includes sv --top-module top --exe sv/sim_sv.cpp
 ## License
 This software is licensed under the Apache 2.0 license. See the [LICENSE](LICENSE) file for details.
 
-Verilator is Copyright 2003-2024 by Wilson Snyder. Verilator is free software subjectto either the GNU Lesser General Public License Version 3 or the Perl Artistic License Version 2.0.
+Verilator is Copyright 2003-2024 by Wilson Snyder. Verilator is free software subject to either the GNU Lesser General Public License Version 3 or the Perl Artistic License Version 2.0.
