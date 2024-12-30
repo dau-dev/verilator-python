@@ -1,6 +1,13 @@
 #include <verilated.h>
 #include "Vff_top.h"
 
+#include "svdpi.h"
+#include "Vff_top__Dpi.h"
+
+int test(int a) {
+    return a + 1;
+}
+
 int main(int argc, char** argv, char** env) {
     Verilated::mkdir("logs");
     VerilatedContext contextp;
