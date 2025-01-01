@@ -26,10 +26,6 @@ build-verilator:  ## build verilator
 	cmake --install build
 
 copy-verilator:  ## copy verilator to bin
-	cp build/src/verilator verilator/bin/verilator_bin
-	rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
-
-copy-verilator-win:  ## copy verilator.exe to bin
 	rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
 
 update-verilator-config:

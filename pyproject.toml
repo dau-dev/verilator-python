@@ -8,7 +8,7 @@ authors = [{name = "the verilator-python authors", email = "dev@dau.dev"}]
 description = "Python wrapping/binding for verilator"
 readme = "README.md"
 license = { text = "Apache-2.0" }
-version = "5.30.3"
+version = "5.32.0"
 requires-python = ">=3.9"
 keywords = []
 
@@ -47,7 +47,7 @@ Repository = "https://github.com/dau-dev/verilator-python"
 Homepage = "https://github.com/dau-dev/verilator-python"
 
 [tool.bumpversion]
-current_version = "5.30.3"
+current_version = "5.32.0"
 commit = true
 tag = true
 
@@ -86,7 +86,7 @@ environment = {MACOSX_DEPLOYMENT_TARGET="11.0"}
 archs = "arm64"
 
 [tool.cibuildwheel.windows]
-before-all = """make dependencies-win && make build-verilator && make copy-verilator-win && make update-verilator-config"""
+before-all = """make dependencies-win && make build-verilator && make copy-verilator && make update-verilator-config"""
 archs = "AMD64"
 environment = {WIN_FLEX_BISON="C:/ProgramData/chocolatey/lib/winflexbison3/tools"}
 skip = "*win32 *arm_64"	
