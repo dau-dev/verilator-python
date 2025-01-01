@@ -1,4 +1,5 @@
 `timescale 1ns/1ns
+import "DPI-C" function int test(input int a);
 
 class testing_env;
     rand int unsigned rn;
@@ -18,6 +19,8 @@ class testing_env;
     int file;
     int value;
     string param;
+
+    $display("Test: %x", test(0));
 
     file = $fopen(filename, "r");
 

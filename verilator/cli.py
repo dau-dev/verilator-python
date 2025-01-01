@@ -1,5 +1,5 @@
 from functools import lru_cache
-from os import environ
+from os import environ, name
 from pathlib import Path
 from shutil import which
 from subprocess import Popen
@@ -9,13 +9,21 @@ from typing import List
 
 
 @lru_cache(maxsize=1)
+def _get_perl() -> str:
+    perl_exe = which("perl")
+    if not perl_exe:
+        raise ModuleNotFoundError("Must have perl installed to use verilator!")
+    return perl_exe
+
+
+@lru_cache(maxsize=1)
 def _get_verilator() -> str:
     verilator_exe = which("verilator")
     if not verilator_exe:
         verilator_root = Path(__file__).parent.resolve()
         verilator_exe = str((verilator_root / "bin" / "verilator").resolve())
-        environ["VERILATOR_ROOT"] = str(verilator_root)
-        environ["CXXFLAGS"] = environ.get("CXXFLAGS", "--std=c++20")
+        environ["VERILATOR_ROOT"] = str(verilator_root.as_posix())
+        environ["CXXFLAGS"] = environ.get("CXXFLAGS", "--std=c++20 -DVL_TIME_CONTEXT")
     return verilator_exe
 
 
@@ -24,6 +32,9 @@ def verilator(argv):
         _get_verilator(),
         *argv,
     ]
+    if name == "nt":
+        # run perl explicitly
+        build_cmd.insert(0, _get_perl())
     process = Popen(build_cmd, stderr=stderr, stdout=stdout)
     while process.poll() is None:
         sleep(0.1)

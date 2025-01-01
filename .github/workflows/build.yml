@@ -25,7 +25,7 @@ jobs:
           os:
             - ubuntu-24.04 # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
             - macos-14 # https://github.com/actions/runner-images/blob/main/images/macos/macos-14-arm64-Readme.md
-            # - windows-2019 # https://github.com/actions/runner-images/blob/main/images/windows/Windows2019-Readme.md
+            - windows-2022 # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
           python-version:
             - "3.11"
           cibuildwheel:
@@ -35,12 +35,21 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: Setup ccache cache (Linux)
+      - name: Setup cache (mac/linux)
         uses: actions/cache@v4
         with:
           path: "/home/runner/work/verilator-python/verilator-python/.ccache"
-          key: ccache-${{ runner.os }}-
-          restore-keys: ccache-${{ runner.os }}-
+          key: cache-${{ runner.os }}-
+          restore-keys: cache-${{ runner.os }}-
+        if: ${{ runner.os != 'Windows' }}
+
+      - name: Setup cache (windows)
+        uses: actions/cache@v4
+        with:
+          path: "C:/ProgramData/chocolatey/"
+          key: cache-${{ runner.os }}-
+          restore-keys: cache-${{ runner.os }}-
+        if: ${{ runner.os == 'Windows' }}
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -52,7 +61,7 @@ jobs:
       - name: Install dependencies
         run: pip install cibuildwheel
 
-      - name: Python Wheel Steps (Linux)
+      - name: Python Wheel Steps (linux)
         run: python -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: "${{ matrix.cibuildwheel }}-manylinux*"
@@ -60,7 +69,7 @@ jobs:
           CIBW_BUILD_VERBOSITY: 3
         if: ${{ runner.os == 'Linux' }}
 
-      - name: Python Build Steps (Macos)
+      - name: Python Build Steps (mac)
         run: python -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: "${{ matrix.cibuildwheel }}-macos*"
@@ -68,11 +77,11 @@ jobs:
           CIBW_BUILD_VERBOSITY: 3
         if: ${{ matrix.os == 'macos-14' }}
 
-      - name: Python Build Steps (Windows)
+      - name: Python Build Steps (windows)
         run: python -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: "${{ matrix.cibuildwheel }}-win_amd64"
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-2022' }}
 
       - name: Upload Wheel
         uses: actions/upload-artifact@v4
@@ -80,8 +89,16 @@ jobs:
           name: dist-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python-version }}
           path: dist/*.whl
 
+      - name: Install wheel (mac/linux)
+        run: python -m pip install dist/*.whl
+        if: ${{ runner.os != 'Windows' }}
+
+      - name: Install wheel (windows)
+        run: python -m pip install -U (Get-ChildItem .\dist\*.whl | Select-Object -Expand FullName)
+        if: ${{ runner.os == 'Windows' }}
+
+      - name: Install test dependencies
+        run: python -m pip install pytest rich typer
+
       - name: Test Wheel
-        run: |
-          python -m pip install dist/*.whl
-          python -m pip install pytest rich typer
-          python -m pytest -vvv verilator/tests
+        run: python -m pytest -vvv verilator/tests

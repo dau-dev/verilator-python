@@ -75,55 +75,20 @@ test-command = "echo 'TODO'"
 test-requires = []
 
 [tool.cibuildwheel.linux]
-before-all ="""
-set -e
-yum install bison ccache flex -y
-export PATH=/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH
-git submodule update --init --recursive
-cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
-cmake --build build
-cmake --install build
-cp build/src/verilator verilator/bin/verilator_bin
-echo "AR = ar" >> verilator/include/verilated.mk
-echo "CXX = c++" >> verilator/include/verilated.mk
-echo "LINK = c++" >> verilator/include/verilated.mk
-echo "PYTHON3 = python" >> verilator/include/verilated.mk
-rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
-"""
+before-all = """make dependencies-linux && PATH=/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH make build-verilator && make copy-verilator && make update-verilator-config"""
 repair-wheel-command = ""
 skip = "*i686 musllinux*"
 
 [tool.cibuildwheel.macos]
-before-all ="""
-set -e
-HOMEBREW_NO_AUTO_UPDATE=1 brew install bison ccache flex make ninja
-brew unlink bison flex && brew link --force bison && brew link --force flex 
-export PATH=/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH
-git submodule update --init --recursive
-cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
-cmake --build build
-cmake --install build
-cp build/src/verilator verilator/bin/verilator_bin
-echo "AR = ar" >> verilator/include/verilated.mk
-echo "CXX = c++" >> verilator/include/verilated.mk
-echo "LINK = c++" >> verilator/include/verilated.mk
-echo "PYTHON3 = python" >> verilator/include/verilated.mk
-rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
-"""
+before-all = """make dependencies-macos && PATH=/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH make build-verilator && make copy-verilator && make update-verilator-config"""
 repair-wheel-command = ""
 environment = {MACOSX_DEPLOYMENT_TARGET="11.0"}
 archs = "arm64"
 
 [tool.cibuildwheel.windows]
-before-all ="""
-git submodule update --init --recursive
-cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
-cmake --build build
-cmake --install build
-cp build/src/verilator verilator/bin/verilator_bin
-rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
-"""
+before-all = """make dependencies-win && make build-verilator && make copy-verilator-win && make update-verilator-config"""
 archs = "AMD64"
+environment = {WIN_FLEX_BISON="C:/ProgramData/chocolatey/lib/winflexbison3/tools"}
 skip = "*win32 *arm_64"	
 
 [tool.coverage.run]

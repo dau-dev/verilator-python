@@ -1,13 +1,42 @@
 #########
 # BUILD #
 #########
-.PHONY: develop build install
+.PHONY: develop build build-verilator install dependencies-linux dependencies-macos dependencies-win copy-verilator copy-verilator-win update-verilator-config
 
 develop:  ## install dependencies and build library
 	python -m pip install -e .[develop]
 
 build:  ## build the python library
 	python -m build -n -w
+
+dependencies-linux:
+	yum install bison ccache flex -y
+
+dependencies-macos:
+	HOMEBREW_NO_AUTO_UPDATE=1 brew install bison ccache flex make ninja
+	brew unlink bison flex && brew link --force bison && brew link --force flex
+
+dependencies-win:
+	choco install cmake curl winflexbison3 ninja unzip zip --no-progress -y
+
+build-verilator:  ## build verilator
+	git submodule update --init --recursive
+	cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
+	cmake --build build --config Release -j 3
+	cmake --install build
+
+copy-verilator:  ## copy verilator to bin
+	cp build/src/verilator verilator/bin/verilator_bin
+	rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
+
+copy-verilator-win:  ## copy verilator.exe to bin
+	rm -rf src build .gitmodules verilator/examples verilator/bin/verilator_ccache_report verilator/bin/verilator_difftree verilator/bin/verilator_gantt verilator/bin/verilator_profcfunc verilator/verilator-config-version.cmake verilator/verilator-config.cmake
+
+update-verilator-config:
+	echo "AR = ar" >> verilator/include/verilated.mk
+	echo "CXX = c++" >> verilator/include/verilated.mk
+	echo "LINK = c++" >> verilator/include/verilated.mk
+	echo "PYTHON3 = python" >> verilator/include/verilated.mk
 
 install:  ## install library
 	python -m pip install .
