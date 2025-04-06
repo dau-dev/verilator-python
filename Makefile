@@ -4,7 +4,7 @@
 .PHONY: develop build build-verilator install dependencies-linux dependencies-macos dependencies-win copy-verilator copy-verilator-win update-verilator-config
 
 develop:  ## install dependencies and build library
-	python -m pip install -e .[develop]
+	uv pip install -e .[develop]
 
 build:  ## build the python library
 	python -m build -n -w
@@ -35,7 +35,7 @@ update-verilator-config:
 	echo "PYTHON3 = python" >> verilator/include/verilated.mk
 
 install:  ## install library
-	python -m pip install .
+	uv pip install .
 
 #########
 # LINTS #
