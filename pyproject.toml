@@ -115,6 +115,25 @@ artifacts = [
 [tool.hatch.build.sources]
 src = "/"
 
+[tool.hatch.build.targets.sdist]
+packages = [
+    "verilator",
+    "hatch_plugin.py",
+    "src",
+]
+include = [
+    "LICENSE",
+    "README.md",
+]
+exclude = [
+    "/.github",
+    "/scripts",
+    "/src",
+    "/.gitmodules",
+    "/.gitignore",
+    "/pyproject.toml",
+]
+
 [tool.hatch.build.targets.wheel.hooks.custom]
 
 [tool.hatch.build.targets.wheel]
