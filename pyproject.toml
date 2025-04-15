@@ -8,7 +8,7 @@ authors = [{name = "the verilator-python authors", email = "dev@dau.dev"}]
 description = "Python wrapping/binding for verilator"
 readme = "README.md"
 license = { text = "Apache-2.0" }
-version = "5.32.0"
+version = "5.34.0"
 requires-python = ">=3.9"
 keywords = []
 
@@ -49,7 +49,7 @@ Repository = "https://github.com/dau-dev/verilator-python"
 Homepage = "https://github.com/dau-dev/verilator-python"
 
 [tool.bumpversion]
-current_version = "5.32.0"
+current_version = "5.34.0"
 commit = true
 tag = true
 
@@ -71,7 +71,7 @@ ignore = [
 ]
 
 [tool.cibuildwheel]
-build = "cp39-* cp310-* cp311-* cp312-*"
+build = "cp39-* cp310-* cp311-* cp312-* cp313-*"
 test-command = "echo 'TODO'"
 test-requires = []
 
