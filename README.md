@@ -2,9 +2,15 @@
 
 Python wrapping/binding for verilator
 
+<<<<<<< before updating
 [![Build Status](https://github.com/dau-dev/verilator-python/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/dau-dev/verilator-python/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/dau-dev/verilator-python/branch/main/graph/badge.svg)](https://codecov.io/gh/dau-dev/verilator-python)
 [![License](https://img.shields.io/github/license/dau-dev/verilator-python)](https://github.com/dau-dev/verilator-python)
+=======
+[![Build Status](https://github.com/dau-dev/verilator/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/dau-dev/verilator/actions/workflows/build.yaml)
+[![codecov](https://codecov.io/gh/dau-dev/verilator/branch/main/graph/badge.svg)](https://codecov.io/gh/dau-dev/verilator)
+[![License](https://img.shields.io/github/license/dau-dev/verilator)](https://github.com/dau-dev/verilator)
+>>>>>>> after updating
 [![PyPI](https://img.shields.io/pypi/v/verilator.svg)](https://pypi.python.org/pypi/verilator)
 
 ## Overview
