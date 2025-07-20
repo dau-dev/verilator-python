@@ -153,7 +153,6 @@ verilator/labextension
 
 # Rust
 target
-<<<<<<< before updating
 
 # Verilator
 verilator/bin/
@@ -171,5 +170,3 @@ verilator/tests/module/*.h
 verilator/tests/module/*.mk
 verilator/tests/module/*.dat
 verilator/tests/module/Vff_top
-=======
->>>>>>> after updating
