@@ -6,13 +6,10 @@ __pycache__/
 # C extensions
 *.a
 *.so
-<<<<<<< before updating
 *.a
 *.o
 *.d
-=======
 *.obj
->>>>>>> after updating
 *.dll
 *.exp
 *.lib
