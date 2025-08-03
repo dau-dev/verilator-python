@@ -142,10 +142,13 @@ js/dist
 js/lib
 js/node_modules
 js/*.tgz
+verilator/extension
 
 # Jupyter
 .ipynb_checkpoints
 .autoversion
+!verilator/extension/verilator.json
+!verilator/extension/install.json
 verilator/nbextension
 verilator/labextension
 

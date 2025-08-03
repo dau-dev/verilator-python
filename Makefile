@@ -6,6 +6,11 @@
 develop:  ## install dependencies and build library
 	uv pip install -e .[develop]
 
+requirements:  ## install prerequisite python build requirements
+	python -m pip install --upgrade pip toml
+	python -m pip install `python -c 'import toml; c = toml.load("pyproject.toml"); print("\n".join(c["build-system"]["requires"]))'`
+	python -m pip install `python -c 'import toml; c = toml.load("pyproject.toml"); print(" ".join(c["project"]["optional-dependencies"]["develop"]))'`
+
 build:  ## build the python library
 	python -m build -n -w
 
@@ -40,20 +45,27 @@ install:  ## install library
 #########
 # LINTS #
 #########
-.PHONY: lint lints fix format
+.PHONY: lint-py lint-docs fix-py fix-docs lint lints fix format
 
-lint:  ## run python linter with ruff
+lint-py:  ## lint python with ruff
 	python -m ruff check verilator
 	python -m ruff format --check verilator
 
-# Alias
-lints: lint
+lint-docs:  ## lint docs with mdformat and codespell
+	python -m mdformat --check README.md 
+	python -m codespell_lib README.md 
 
-fix:  ## fix python formatting with ruff
+fix-py:  ## autoformat python code with ruff
 	python -m ruff check --fix verilator
 	python -m ruff format verilator
 
-# alias
+fix-docs:  ## autoformat docs with mdformat and codespell
+	python -m mdformat README.md 
+	python -m codespell_lib --write README.md 
+
+lint: lint-py lint-docs  ## run all linters
+lints: lint
+fix: fix-py fix-docs  ## run all autoformatters
 format: fix
 
 ################
