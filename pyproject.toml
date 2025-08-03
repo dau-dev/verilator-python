@@ -32,13 +32,10 @@ cli = [
 ]
 develop = [
     "build",
-<<<<<<< before updating
-    "cibuildwheel",
-=======
     "bump-my-version",
     "check-manifest",
+    "cibuildwheel",
     "codespell>=2.4,<2.5",
->>>>>>> after updating
     "hatchling",
     "mdformat>=0.7.22,<0.8",
     "mdformat-tables>=1",
