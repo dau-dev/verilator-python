@@ -31,8 +31,7 @@ jobs:
           cibuildwheel:
             - "cp311"
     steps:
-<<<<<<< before updating
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: 'true'
 
@@ -100,50 +99,3 @@ jobs:
 
       - name: Test Wheel
         run: python -m pytest -vvv verilator/tests
-=======
-    - uses: actions/checkout@v5
-
-    - uses: actions-ext/python/setup@main
-      with:
-        version: ${{ matrix.python-version }}
-
-    - name: Install dependencies
-      run: make develop
-
-    - name: Lint
-      run: make lint
-
-    - name: Checks
-      run: make checks
-
-    - name: Build
-      run: make build
-
-    - name: Test
-      run: make coverage
-
-    - name: Upload test results (Python)
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results-${{ matrix.os }}-${{ matrix.python-version }}
-        path: junit.xml
-      if: ${{ always() }}
-
-    - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2
-      with:
-        files: '**/junit.xml'
-
-    - name: Upload coverage
-      uses: codecov/codecov-action@v5
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-
-    - name: Make dist
-      run: make dist
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: dist-${{matrix.os}}
-        path: dist
->>>>>>> after updating
