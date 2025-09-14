@@ -149,6 +149,7 @@ verilator/extension
 # Jupyter
 .ipynb_checkpoints
 .autoversion
+Untitled*.ipynb
 !verilator/extension/verilator.json
 !verilator/extension/install.json
 verilator/nbextension
