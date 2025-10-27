@@ -81,7 +81,7 @@ jobs:
         if: ${{ matrix.os == 'windows-2022' }}
 
       - name: Upload Wheel
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dist-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python-version }}
           path: dist/*.whl
