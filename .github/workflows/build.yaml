@@ -30,9 +30,8 @@ jobs:
             - "3.11"
           cibuildwheel:
             - "cp311"
-    steps:
-<<<<<<< before updating
-    - uses: actions/checkout@v5
+    steps
+    - uses: actions/checkout@v6
       with:
         submodules: 'true'
 
@@ -51,9 +50,6 @@ jobs:
         key: cache-${{ runner.os }}-
         restore-keys: cache-${{ runner.os }}-
       if: ${{ runner.os == 'Windows' }}
-=======
-    - uses: actions/checkout@v6
->>>>>>> after updating
 
     - uses: actions-ext/python/setup@main
       with:
