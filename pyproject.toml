@@ -130,7 +130,6 @@ src = "/"
 [tool.hatch.build.targets.sdist]
 packages = [
     "verilator",
-<<<<<<< before updating
     "hatch_plugin.py",
     "src",
 ]
@@ -150,7 +149,9 @@ exclude = [
 [tool.hatch.build.targets.wheel.hooks.custom]
 
 [tool.hatch.build.targets.wheel]
-packages = ["verilator"]
+packages = [
+    "verilator",
+]
 exclude = [
     "/.github",
     "/scripts",
@@ -159,16 +160,6 @@ exclude = [
     "/.gitignore",
     "/pyproject.toml",
 ]
-=======
-]
-
-[tool.hatch.build.targets.wheel]
-packages = [
-    "verilator",
-]
-
-[tool.hatch.build.targets.wheel.shared-data]
->>>>>>> after updating
 
 [tool.pytest.ini_options]
 addopts = [
@@ -200,11 +191,7 @@ section-order = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-<<<<<<< before updating
-"__init__.py" = ["F401", "F403"]
-=======
 "__init__.py" = [
     "F401",
     "F403",
 ]
->>>>>>> after updating
