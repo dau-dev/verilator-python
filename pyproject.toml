@@ -2,7 +2,7 @@
 requires = [
     "hatchling",
 ]
-build-backend="hatchling.build"
+build-backend = "hatchling.build"
 
 [project]
 name = "verilator"
@@ -37,15 +37,24 @@ cli = [
 develop = [
     "build",
     "bump-my-version",
+<<<<<<< before updating
     "check-manifest",
     "cibuildwheel",
     "codespell>=2.4,<2.5",
+=======
+    "check-dist",
+    "codespell",
+>>>>>>> after updating
     "hatchling",
-    "mdformat>=0.7.22,<1.1",
+    "mdformat",
     "mdformat-tables>=1",
     "pytest",
     "pytest-cov",
+<<<<<<< before updating
     "ruff>=0.9,<0.16",
+=======
+    "ruff",
+>>>>>>> after updating
     "twine",
     "ty",
     "uv",
@@ -75,6 +84,7 @@ filename = "pyproject.toml"
 search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
 
+<<<<<<< before updating
 [tool.check-manifest]
 ignore = [
     ".copier-answers.yaml",
@@ -104,6 +114,8 @@ archs = "AMD64"
 environment = {WIN_FLEX_BISON="C:/ProgramData/chocolatey/lib/winflexbison3/tools"}
 skip = "*win32 *arm_64"
 
+=======
+>>>>>>> after updating
 [tool.coverage.run]
 branch = true
 omit = [
