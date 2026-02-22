@@ -159,7 +159,10 @@ verilator/labextension
 # Rust
 target
 
-<<<<<<< before updating
+# Hydra
+outputs/
+multirun/
+
 # Verilator
 verilator/bin/
 verilator/examples/
@@ -176,8 +179,3 @@ verilator/tests/module/*.h
 verilator/tests/module/*.mk
 verilator/tests/module/*.dat
 verilator/tests/module/Vff_top
-=======
-# Hydra
-outputs/
-multirun/
->>>>>>> after updating
