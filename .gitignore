@@ -149,7 +149,11 @@ target
 outputs/
 multirun/
 
-<<<<<<< before updating
+# AI
+ROADMAP.md
+AGENTS.md
+.github/hooks/sdlc.json
+
 # Verilator
 verilator/bin/
 verilator/examples/
@@ -166,9 +170,3 @@ verilator/tests/module/*.h
 verilator/tests/module/*.mk
 verilator/tests/module/*.dat
 verilator/tests/module/Vff_top
-=======
-# AI
-ROADMAP.md
-AGENTS.md
-.github/hooks/sdlc.json
->>>>>>> after updating
