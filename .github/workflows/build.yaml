@@ -90,16 +90,9 @@ jobs:
       run: python -m pip install dist/*.whl
       if: ${{ runner.os != 'Windows' }}
 
-<<<<<<< before updating
     - name: Install wheel (windows)
       run: python -m pip install -U (Get-ChildItem .\dist\*.whl | Select-Object -Expand FullName)
       if: ${{ runner.os == 'Windows' }}
-=======
-    - name: Upload coverage
-      uses: codecov/codecov-action@v6
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
->>>>>>> after updating
 
     - name: Install test dependencies
       run: python -m pip install pytest rich typer
