@@ -1,6 +1,7 @@
 [build-system]
 requires = [
     "hatchling",
+    "systemc",
 ]
 build-backend = "hatchling.build"
 
@@ -12,7 +13,7 @@ authors = [
 description = "Python wrapping/binding for verilator"
 readme = "README.md"
 license = { text = "Apache-2.0" }
-version = "5.44.0"
+version = "5.48.0"
 requires-python = ">=3.10"
 keywords = []
 
@@ -27,7 +28,9 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 
-dependencies = []
+dependencies = [
+    "systemc",
+]
 
 [project.optional-dependencies]
 cli = [
@@ -60,7 +63,7 @@ Repository = "https://github.com/dau-dev/verilator-python"
 Homepage = "https://github.com/dau-dev/verilator-python"
 
 [tool.bumpversion]
-current_version = "5.44.0"
+current_version = "5.48.0"
 commit = true
 tag = true
 commit_args = "-s"
@@ -154,6 +157,11 @@ exclude = [
     "/.gitignore",
     "/pyproject.toml",
 ]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"verilator/include" = "include/verilator"
+"verilator/lib" = "lib/verilator"
+"verilator/share" = "share/verilator"
 
 [tool.pytest.ini_options]
 addopts = [
