@@ -3,6 +3,16 @@
 #########
 .PHONY: develop build build-verilator install dependencies-linux dependencies-macos dependencies-win copy-verilator copy-verilator-win update-verilator-config
 
+VERILATOR_CMAKE_ARGS := \
+	-DCMAKE_CXX_STANDARD=23 \
+	-DCMAKE_INSTALL_PREFIX=verilator
+
+ifneq ($(OS),Windows_NT)
+VERILATOR_CMAKE_ARGS += \
+	-DFLEX_EXECUTABLE=/usr/bin/flex \
+	-DFLEX_INCLUDE_DIR=/Library/Developer/CommandLineTools/usr/include
+endif
+
 develop:  ## install dependencies and build library
 	uv pip install -e .[develop]
 
@@ -26,7 +36,7 @@ dependencies-win:
 
 build-verilator:  ## build verilator
 	git submodule update --init --recursive
-	cmake -B build src -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=verilator
+	cmake -B build src $(VERILATOR_CMAKE_ARGS)
 	cmake --build build --config Release -j 3
 	cmake --install build
 
@@ -52,16 +62,16 @@ lint-py:  ## lint python with ruff
 	python -m ruff format --check verilator
 
 lint-docs:  ## lint docs with mdformat and codespell
-	python -m mdformat --check README.md 
-	python -m codespell_lib README.md 
+	python -m mdformat --check README.md
+	python -m codespell_lib README.md
 
 fix-py:  ## autoformat python code with ruff
 	python -m ruff check --fix verilator
 	python -m ruff format verilator
 
 fix-docs:  ## autoformat docs with mdformat and codespell
-	python -m mdformat README.md 
-	python -m codespell_lib --write README.md 
+	python -m mdformat README.md
+	python -m codespell_lib --write README.md
 
 lint: lint-py lint-docs  ## run all linters
 lints: lint

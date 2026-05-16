@@ -23,7 +23,7 @@ program ff_tb(ff_ifc.bench ds);
 
     /* begin testing */
     repeat(v.iter) begin
-      int _ = v.randomize();
+      static int _ = v.randomize();
 
       ds.reset = 1'b0;
       ds.valid_i = 1'b1;

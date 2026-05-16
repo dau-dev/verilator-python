@@ -24,7 +24,25 @@ def _get_verilator() -> str:
         verilator_exe = str((verilator_root / "bin" / "verilator").resolve())
         environ["VERILATOR_ROOT"] = str(verilator_root.as_posix())
         environ["CXXFLAGS"] = environ.get("CXXFLAGS", "--std=c++20 -DVL_TIME_CONTEXT")
+    _set_systemc_env()
     return verilator_exe
+
+
+def _set_systemc_env() -> None:
+    """Point Verilator at the bundled ``systemc`` Python package's headers/libs.
+
+    Resolved at runtime so the paths are correct regardless of where ``systemc``
+    was installed during the build (build isolation, different venvs, etc.).
+    Existing ``SYSTEMC_INCLUDE`` / ``SYSTEMC_LIBDIR`` env vars take precedence.
+    """
+    if environ.get("SYSTEMC_INCLUDE") and environ.get("SYSTEMC_LIBDIR"):
+        return
+    try:
+        import systemc
+    except ImportError:
+        return
+    environ.setdefault("SYSTEMC_INCLUDE", systemc.include_path())
+    environ.setdefault("SYSTEMC_LIBDIR", systemc.lib_path())
 
 
 def verilator(argv):
