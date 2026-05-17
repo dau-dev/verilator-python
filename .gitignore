@@ -5,6 +5,8 @@ __pycache__/
 
 # C extensions
 *.a
+*.o
+*.dSYM
 *.so
 *.a
 *.o
@@ -16,6 +18,7 @@ __pycache__/
 
 # Rust
 target
+target-capi
 
 # Distribution / packaging
 .Python
@@ -140,11 +143,11 @@ verilator/extension
 verilator/nbextension
 verilator/labextension
 
+# Emscripten SDK (locally installed)
+emsdk
+
 # Mac
 .DS_Store
-
-# Rust
-target
 
 # Hydra
 outputs/
