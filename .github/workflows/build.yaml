@@ -31,77 +31,79 @@ jobs:
           cibuildwheel:
             - "cp311"
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      with:
-        persist-credentials: false
-        submodules: 'true'
-
-    - name: Setup cache (mac/linux)
-      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-      with:
-        path: "/home/runner/work/verilator-python/verilator-python/.ccache"
-        key: cache-${{ runner.os }}-
-        restore-keys: cache-${{ runner.os }}-
-      if: ${{ runner.os != 'Windows' }}
-
-    - name: Setup cache (windows)
-      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-      with:
-        path: "C:/ProgramData/chocolatey/"
-        key: cache-${{ runner.os }}-
-        restore-keys: cache-${{ runner.os }}-
-      if: ${{ runner.os == 'Windows' }}
-
-    - uses: actions-ext/python/setup@main
-      with:
-        version: ${{ matrix.python-version }}
-
-    - name: Install dependencies
-      run: pip install cibuildwheel
-
-    - name: Python Wheel Steps (linux)
-      run: python -m cibuildwheel --output-dir dist
-      env:
-        CIBW_BUILD: "${{ matrix.cibuildwheel }}-manylinux*"
-        CIBW_ENVIRONMENT_LINUX: CCACHE_DIR="/host/home/runner/work/verilator-python/verilator-python/.ccache"
-        CIBW_BUILD_VERBOSITY: 3
-      if: ${{ runner.os == 'Linux' }}
-
-    - name: Python Build Steps (mac)
-      run: python -m cibuildwheel --output-dir dist
-      env:
-        CIBW_BUILD: "${{ matrix.cibuildwheel }}-macos*"
-        CIBW_ENVIRONMENT_MACOS: CCACHE_DIR="/Users/runner/work/verilator-python/verilator-python/.ccache" MACOSX_DEPLOYMENT_TARGET=11.0
-        CIBW_BUILD_VERBOSITY: 3
-      if: ${{ matrix.os == 'macos-14' }}
-
-    - name: Python Build Steps (windows)
-      run: python -m cibuildwheel --output-dir dist
-      env:
-        CIBW_BUILD: "${{ matrix.cibuildwheel }}-win_amd64"
-      if: ${{ matrix.os == 'windows-2022' }}
-
-    - name: Upload Wheel
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-      with:
-        name: dist-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python-version }}
-        path: dist/*.whl
-
-    - name: Install wheel (mac/linux)
-      run: python -m pip install dist/*.whl
-      if: ${{ runner.os != 'Windows' }}
-
-    - name: Install wheel (windows)
-      run: python -m pip install -U (Get-ChildItem .\dist\*.whl | Select-Object -Expand FullName)
-      if: ${{ runner.os == 'Windows' }}
-
-    - name: Install test dependencies
-      run: python -m pip install pytest rich typer
-
-    - name: Test Wheel
-      run: python -m pytest -vvv verilator/tests
-
-    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-      with:
-        name: dist-${{matrix.os}}
-        path: dist
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: 'true'
+  
+      - name: Setup cache (mac/linux)
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: "/home/runner/work/verilator-python/verilator-python/.ccache"
+          key: cache-${{ runner.os }}-
+          restore-keys: cache-${{ runner.os }}-
+        if: ${{ runner.os != 'Windows' }}
+  
+      - name: Setup cache (windows)
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: "C:/ProgramData/chocolatey/"
+          key: cache-${{ runner.os }}-
+          restore-keys: cache-${{ runner.os }}-
+        if: ${{ runner.os == 'Windows' }}
+  
+      - uses: actions-ext/python/setup@main
+        with:
+          version: ${{ matrix.python-version }}
+  
+      - name: Install dependencies
+        run: pip install cibuildwheel
+  
+      - name: Python Wheel Steps (linux)
+        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "${{ matrix.cibuildwheel }}-manylinux*"
+          CIBW_ENVIRONMENT_LINUX: CCACHE_DIR="/host/home/runner/work/verilator-python/verilator-python/.ccache"
+          CIBW_BUILD_VERBOSITY: 3
+        if: ${{ runner.os == 'Linux' }}
+  
+      - name: Python Build Steps (mac)
+        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "${{ matrix.cibuildwheel }}-macos*"
+          CIBW_ENVIRONMENT_MACOS: CCACHE_DIR="/Users/runner/work/verilator-python/verilator-python/.ccache" MACOSX_DEPLOYMENT_TARGET=11.0
+          CIBW_BUILD_VERBOSITY: 3
+        if: ${{ matrix.os == 'macos-14' }}
+  
+      - name: Python Build Steps (windows)
+        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "${{ matrix.cibuildwheel }}-win_amd64"
+        if: ${{ matrix.os == 'windows-2022' }}
+  
+      - name: Upload Wheel
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dist-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python-version }}
+          path: dist/*.whl
+  
+      - name: Install wheel (mac/linux)
+        run: python -m pip install dist/*.whl
+        if: ${{ runner.os != 'Windows' }}
+  
+      - name: Install wheel (windows)
+        run: python -m pip install -U (Get-ChildItem .\dist\*.whl | Select-Object -Expand FullName)
+        if: ${{ runner.os == 'Windows' }}
+  
+      - name: Install test dependencies
+        run: python -m pip install pytest rich typer
+  
+      - name: Test Wheel
+        run: python -m pytest -vvv verilator/tests
+  
+      - name: Upload distributions
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dist-${{matrix.os}}
+          path: dist

@@ -1,4 +1,4 @@
-from verilator import *  # noqa
+from verilator import *
 
 
 def test_all():
