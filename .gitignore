@@ -16,6 +16,10 @@ __pycache__/
 *.exp
 *.lib
 
+# vcpkg
+vcpkg/
+vcpkg_installed/
+
 # Rust
 target
 target-capi
@@ -145,6 +149,7 @@ verilator/labextension
 
 # Emscripten SDK (locally installed)
 emsdk
+.pyodide_build/
 
 # Mac
 .DS_Store
