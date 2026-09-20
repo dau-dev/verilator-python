@@ -19,6 +19,7 @@ permissions:
 
 jobs:
   build:
+<<<<<<< before updating
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -30,6 +31,10 @@ jobs:
             - "3.11"
           cibuildwheel:
             - "cp311"
+=======
+    runs-on: ubuntu-24.04
+
+>>>>>>> after updating
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -48,12 +53,19 @@ jobs:
       - name: Setup cache (windows)
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
+<<<<<<< before updating
           path: "C:/ProgramData/chocolatey/"
           key: cache-${{ runner.os }}-
           restore-keys: cache-${{ runner.os }}-
         if: ${{ runner.os == 'Windows' }}
   
       - uses: actions-ext/python/setup@main
+=======
+          files: '**/junit.xml'
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@0b35c9ecc4f0529d0eb674914510c22f85b196b4  # v7.1.0
+>>>>>>> after updating
         with:
           version: ${{ matrix.python-version }}
   
