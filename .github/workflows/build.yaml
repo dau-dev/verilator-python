@@ -35,36 +35,10 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-<<<<<<< before updating
           submodules: 'true'
   
       - name: Setup cache (mac/linux)
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-=======
-
-      - name: Setup Python
-        uses: actions-ext/python/setup@c8228d827a81b9f8c808825328af361c45461ba3
-        with:
-          version: "3.11"
-
-      - name: Install dependencies
-        run: make develop
-
-      - name: Lint
-        run: make lint
-
-      - name: Checks
-        run: make checks
-
-      - name: Build
-        run: make build
-
-      - name: Test
-        run: make coverage
-
-      - name: Upload test results (Python)
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
->>>>>>> after updating
         with:
           path: "/home/runner/work/verilator-python/verilator-python/.ccache"
           key: cache-${{ runner.os }}-
@@ -74,7 +48,6 @@ jobs:
       - name: Setup cache (windows)
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-<<<<<<< before updating
           path: "C:/ProgramData/chocolatey/"
           key: cache-${{ runner.os }}-
           restore-keys: cache-${{ runner.os }}-
@@ -111,25 +84,6 @@ jobs:
   
       - name: Upload Wheel
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-=======
-          files: '**/junit.xml'
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5  # v7.1.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Build distributions
-        run: make dist
-
-      - name: Test wheel
-        uses: actions-ext/python/test-wheel@c8228d827a81b9f8c808825328af361c45461ba3
-        with:
-          module: verilator
-
-      - name: Test source distribution
-        uses: actions-ext/python/test-sdist@c8228d827a81b9f8c808825328af361c45461ba3
->>>>>>> after updating
         with:
           name: dist-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python-version }}
           path: dist/*.whl
