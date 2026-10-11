@@ -51,6 +51,7 @@ develop = [
     "ruff",
     "twine",
     "ty",
+    "typer",
     "uv",
     "wheel",
 ]

@@ -5,7 +5,6 @@ from shutil import which
 from subprocess import Popen
 from sys import argv, exit, stderr, stdout
 from time import sleep
-from typing import List
 
 
 @lru_cache(maxsize=1)
@@ -61,16 +60,16 @@ def verilator(argv):
 
 
 def build(
-    input: List[str],
+    input: list[str],
     output: str = "obj_dir",
-    includes: List[str] = None,
+    includes: list[str] | None = None,
     timing: bool = True,
     trace: bool = True,
     assert_: bool = True,
     cc: bool = True,
     build: bool = True,
-    exe: str = None,
-    top_module: str = None,
+    exe: str | None = None,
+    top_module: str | None = None,
 ):
     """Utility to build a verilated module"""
     includes = includes or []
