@@ -24,7 +24,7 @@ jobs:
       matrix:
           os:
             - ubuntu-24.04 # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
-            - macos-14 # https://github.com/actions/runner-images/blob/main/images/macos/macos-14-arm64-Readme.md
+            - macos-15 # https://github.com/actions/runner-images/blob/main/images/macos/macos-15-arm64-Readme.md
             - windows-2022 # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
           python-version:
             - "3.11"
@@ -74,7 +74,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.cibuildwheel }}-macos*"
           CIBW_ENVIRONMENT_MACOS: CCACHE_DIR="/Users/runner/work/verilator-python/verilator-python/.ccache" MACOSX_DEPLOYMENT_TARGET=11.0
           CIBW_BUILD_VERBOSITY: 3
-        if: ${{ matrix.os == 'macos-14' }}
+        if: ${{ runner.os == 'macOS' }}
   
       - name: Python Build Steps (windows)
         run: python -m cibuildwheel --output-dir dist
