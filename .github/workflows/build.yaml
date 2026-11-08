@@ -74,7 +74,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.cibuildwheel }}-macos*"
           CIBW_ENVIRONMENT_MACOS: CCACHE_DIR="/Users/runner/work/verilator-python/verilator-python/.ccache" MACOSX_DEPLOYMENT_TARGET=11.0
           CIBW_BUILD_VERBOSITY: 3
-        if: ${{ matrix.os == 'macos-14' }}
+        if: ${{ runner.os == 'macOS' }}
   
       - name: Python Build Steps (windows)
         run: python -m cibuildwheel --output-dir dist
